@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ai_coach_jack/ai_coach_jack.dart';
+import 'service_locator.dart';
 
 void main() {
+  // 1. Initialize dependencies in a decoupled way
+  locator.setup();
+
   runApp(const MyApp());
 }
 
@@ -14,8 +18,9 @@ class MyApp extends StatelessWidget {
       title: 'AI Coach Example',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF7B61FF)),
         useMaterial3: true,
+        fontFamily: 'Inter',
       ),
       home: const HostAppHomeScreen(),
     );
@@ -30,75 +35,45 @@ class HostAppHomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Fitness App'),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: const Color(0xFF7B61FF),
         foregroundColor: Colors.white,
       ),
       body: Center(
-        child: ElevatedButton.icon(
-          onPressed: () {
-            // This simulates the user tapping a button in their app to launch your SDK
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => AiCoachHomeView(
-                  // The host app can pass a custom theme here, we use defaults now
-                  theme: const AiCoachTheme(),
-                  onMyChatsPressed: () {
-                    // Navigate to the list of chats
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => AiCoachChatsView(
-                          onChatTapped: (coach) {
-                            // Here the host app would navigate to the actual chat room
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => AiCoachView(
-                                  coach: coach,
-                                  userName: 'Jonatan', // Passed from the host app's user profile
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    );
-                  },
-                  onChooseCoachPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => AiCoachListView(
-                          onCoachChosen: (coach) {
-                            // Navigate to the chat view with the selected coach
-                            // In a real app, you might create a chat in the DB first
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => AiCoachView(
-                                  coach: ChatItem(
-                                    id: coach.id,
-                                    name: coach.name,
-                                    avatarUrl: coach.imageUrl,
-                                  ),
-                                  userName: 'Jonatan',
-                                ),
-                              ),
-                            );
-                          },
-                          onCoachDetails: (coach) {
-                            debugPrint('Details for ${coach.name}');
-                          },
-                        ),
-                      ),
-                    );
-                  },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.fitness_center,
+                size: 64, color: Color(0xFF7B61FF)),
+            const SizedBox(height: 24),
+            Text(
+              'Welcome back, Jonatan!',
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            const SizedBox(height: 48),
+            ElevatedButton.icon(
+              onPressed: () {
+                AiCoach.launch(
+                  context,
+                  repository: locator.repository,
+                  theme: locator.theme,
+                  userName: 'Dan',
+                );
+              },
+              icon: const Icon(Icons.auto_awesome),
+              label: const Text('Chat with AI Coach'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF7B61FF),
+                foregroundColor: Colors.white,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                textStyle:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
               ),
-            );
-          },
-          icon: const Icon(Icons.fitness_center),
-          label: const Text('Open AI Coach'),
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            textStyle: const TextStyle(fontSize: 18),
-          ),
+            ),
+          ],
         ),
       ),
     );
