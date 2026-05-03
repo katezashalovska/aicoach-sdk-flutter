@@ -1,39 +1,96 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# AI Coach Jack SDK
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+A Flutter SDK for integrating AI-driven coaching and chat functionality into mobile applications. It provides a ready-to-use UI for coach selection, session management, and real-time conversation.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- **Coach Management**: Catalog of AI coaches with specific metadata (expertise, ratings, achievements).
+- **Session History**: Persistent tracking of user conversations.
+- **Messaging Interface**: Optimized chat UI with standard mobile messaging patterns.
+- **Design System**: Fully customizable theme layer to match host application branding.
+- **Modular Architecture**: Feature-based internal structure for better maintainability.
 
-## Getting started
+## Installation
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Add `ai_coach_jack` as a dependency in your `pubspec.yaml` file:
+
+```yaml
+dependencies:
+  ai_coach_jack: ^1.0.0
+```
+
+## Getting Started
+
+The SDK requires a backend configuration and a repository implementation to handle data fetching.
+
+### 1. Initialization
+
+Initialize the configuration and repository. It is recommended to manage these instances using a service locator or provider.
+
+```dart
+import 'package:ai_coach_jack/ai_coach_jack.dart';
+
+final config = AiCoachConfig(
+  baseUrl: 'https://api.example.com',
+  apiKey: 'YOUR_API_KEY',
+  userId: 'user_unique_id',
+);
+
+final repository = RemoteAiCoachRepository(config: config);
+```
+
+### 2. Theming
+
+Customize the visual appearance using `AiCoachTheme`.
+
+```dart
+final theme = AiCoachTheme(
+  primaryColor: const Color(0xFF7B61FF),
+  onAccentColor: Colors.white,
+  buttonRadius: 12.0,
+);
+```
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+### Launching the Full SDK
+
+The `AiCoach.launch` method provides the main entry point, including navigation to chat history and coach selection.
 
 ```dart
-const like = 'sample';
+AiCoach.launch(
+  context,
+  repository: repository,
+  theme: theme,
+  userName: 'User Name',
+);
 ```
 
-## Additional information
+### Launching a Specific Chat
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+To bypass the selection screens and start a session directly with a specific coach:
+
+```dart
+AiCoach.launchChat(
+  context,
+  repository: repository,
+  theme: theme,
+  coachId: 'coach_id',
+  userName: 'User Name',
+);
+```
+
+## API Reference
+
+### AiCoachTheme
+
+| Property | Type | Default |
+| :--- | :--- | :--- |
+| `primaryColor` | `Color` | `0xFF7B61FF` |
+| `onAccentColor` | `Color` | `Colors.white` |
+| `backgroundColor` | `Color` | `0xFFFAFAFA` |
+| `buttonRadius` | `double` | `12.0` |
+
+## Additional Information
+
+For issues, feature requests, or contributions, please use the project's repository issue tracker.

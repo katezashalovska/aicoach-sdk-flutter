@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../theme/ai_coach_theme.dart';
-import '../../models/chat_item.dart';
+import '../../../theme/ai_coach_theme.dart';
+import '../../../models/chat_item.dart';
 
 /// A widget representing a single chat item row in the list.
 class ChatListItem extends StatelessWidget {

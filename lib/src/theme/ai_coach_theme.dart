@@ -3,7 +3,6 @@ import 'ai_coach_text_styles.dart';
 
 /// Configuration class for the AI Coach SDK Theme.
 /// This allows host applications to override the colors and text styles
-/// to match their own branding.
 class AiCoachTheme {
   /// The primary brand color used for main buttons and icons.
   final Color primaryColor;
@@ -20,14 +19,11 @@ class AiCoachTheme {
   /// Color for secondary text (e.g. descriptions, last messages).
   final Color secondaryTextColor;
 
-  /// Color for text/icons on top of primary color.
-  final Color onPrimaryColor;
+  /// Color for text/icons displayed on top of primary color or tags.
+  final Color onAccentColor;
 
   /// Background color for skill tags.
   final Color tagBackgroundColor;
-
-  /// Text color for skill tags.
-  final Color tagTextColor;
 
   /// Color for image placeholders.
   final Color placeholderColor;
@@ -59,11 +55,10 @@ class AiCoachTheme {
     this.cardBackgroundColor = const Color(0xFFF7F7F7),
     this.cardBorderColor = const Color(0xFFD4D4D4),
     this.secondaryTextColor = const Color(0xFFAFAFAF),
-    this.onPrimaryColor = Colors.white,
-    this.tagBackgroundColor = const Color(0x66000000), // Black with opacity
-    this.tagTextColor = Colors.white,
+    this.onAccentColor = Colors.white,
+    this.tagBackgroundColor = const Color(0x66000000),
     this.placeholderColor = const Color(0xFFEEEEEE),
-    this.buttonRadius = 8.0,
+    this.buttonRadius = 12.0,
     this.titleStyle = AiCoachTextStyles.headerLarge,
     this.headingStyle = AiCoachTextStyles.headerLarge,
     this.subTitleStyle = AiCoachTextStyles.headerSmall,

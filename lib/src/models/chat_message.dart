@@ -14,4 +14,14 @@ class ChatMessage {
     required this.isUser,
     required this.timestamp,
   });
+
+  factory ChatMessage.fromJson(Map<String, dynamic> json) {
+    return ChatMessage(
+      text: json['content'] ?? '',
+      isUser: json['sender']?.toString().toUpperCase() == 'USER',
+      timestamp: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt'])
+          : DateTime.now(),
+    );
+  }
 }

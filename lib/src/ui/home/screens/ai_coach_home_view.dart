@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../theme/ai_coach_theme.dart';
-import 'widgets/ai_coach_app_bar.dart';
+import '../../../theme/ai_coach_theme.dart';
+import '../../shared/ai_coach_app_bar.dart';
 
 class AiCoachHomeView extends StatelessWidget {
   /// Theme configuration to allow host apps to customize the UI.
@@ -12,12 +12,16 @@ class AiCoachHomeView extends StatelessWidget {
   /// Callback when "Choose coach" is pressed.
   final VoidCallback onChooseCoachPressed;
 
+  /// The current user's name for personalized greetings.
+  final String userName;
+
   const AiCoachHomeView({
-    Key? key,
+    super.key,
     this.theme = const AiCoachTheme(),
+    this.userName = 'User',
     required this.onMyChatsPressed,
     required this.onChooseCoachPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +96,7 @@ class AiCoachHomeView extends StatelessWidget {
                 onPressed: onChooseCoachPressed,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: theme.primaryColor,
-                  foregroundColor: theme.onPrimaryColor,
+                  foregroundColor: theme.onAccentColor,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(theme.buttonRadius),

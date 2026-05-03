@@ -8,6 +8,8 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
+  dio: ^5.9.2
+  fetch_client: ^1.2.1
   flutter:
     sdk: flutter
   flutter_svg: ^2.0.10

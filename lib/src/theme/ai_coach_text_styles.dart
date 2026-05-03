@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-/// Predefined text styles for the AI Coach SDK according to the design system.
+/// Predefined text styles for the AI Coach SDK
 class AiCoachTextStyles {
-  /// The main font family used across the SDK.
+  /// The main font family used across the SDK
   static const String fontFamily = 'Inter';
-  
+
   /// The default dark grey text color.
   static const Color defaultTextColor = Color(0xFF403F3F);
 
@@ -14,7 +14,7 @@ class AiCoachTextStyles {
     fontFamily: fontFamily,
     fontSize: 18,
     fontWeight: FontWeight.w500,
-    height: 1.2, // 120% line-height
+    height: 1.2,
   );
 
   /// Used for smaller headers such as 'My chats'

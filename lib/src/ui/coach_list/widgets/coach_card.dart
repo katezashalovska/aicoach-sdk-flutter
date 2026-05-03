@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../theme/ai_coach_theme.dart';
-import '../../models/coach.dart';
+import '../../../theme/ai_coach_theme.dart';
+import '../../../models/coach.dart';
 import 'coach_tag.dart';
 
 class CoachCard extends StatelessWidget {
@@ -114,7 +114,7 @@ class CoachCard extends StatelessWidget {
                   onPressed: onChoosePressed,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: theme.primaryColor,
-                    foregroundColor: theme.onPrimaryColor,
+                    foregroundColor: theme.onAccentColor,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     elevation: 0,
                     shape: RoundedRectangleBorder(
@@ -123,7 +123,7 @@ class CoachCard extends StatelessWidget {
                   ),
                   child: Text(
                     'Choose',
-                    style: theme.buttonStyle.copyWith(color: theme.onPrimaryColor),
+                    style: theme.buttonStyle.copyWith(color: theme.onAccentColor),
                   ),
                 ),
               ),

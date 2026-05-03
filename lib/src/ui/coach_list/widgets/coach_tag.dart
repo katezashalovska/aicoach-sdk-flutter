@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../theme/ai_coach_theme.dart';
+import '../../../theme/ai_coach_theme.dart';
 
 class CoachTag extends StatelessWidget {
   final AiCoachTheme theme;
@@ -55,7 +55,7 @@ class CoachTag extends StatelessWidget {
               width: 16,
               height: 16,
               colorFilter: ColorFilter.mode(
-                isGlass ? Colors.white : theme.primaryColor,
+                isGlass ? theme.onAccentColor : theme.primaryColor,
                 BlendMode.srcIn,
               ),
               package: 'ai_coach_jack',
@@ -65,7 +65,7 @@ class CoachTag extends StatelessWidget {
           Text(
             label,
             style: TextStyle(
-              color: isGlass ? Colors.white : theme.secondaryButtonStyle.color,
+              color: isGlass ? theme.onAccentColor : theme.secondaryButtonStyle.color,
               fontFamily: 'Inter',
               fontSize: 12,
               fontWeight: FontWeight.w400,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../theme/ai_coach_theme.dart';
-import '../../models/chat_message.dart';
+import '../../../theme/ai_coach_theme.dart';
+import '../../../models/chat_message.dart';
 
 /// Custom painter to draw an iOS-style chat bubble with the large swoop tail.
 class ChatBubblePainter extends CustomPainter {
@@ -112,8 +112,8 @@ class ChatMessageBubble extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(
         bottom: 12.0,
-        left: isUser ? 48.0 : 8.0,
-        right: isUser ? 8.0 : 48.0,
+        left: isUser ? 48.0 : 0.0,
+        right: isUser ? 0.0 : 48.0,
       ),
       child: Row(
         mainAxisAlignment: isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
@@ -123,13 +123,13 @@ class ChatMessageBubble extends StatelessWidget {
             child: CustomPaint(
               painter: ChatBubblePainter(
                 bgColor: isUser ? theme.cardBackgroundColor : theme.primaryColor.withOpacity(0.08),
-                borderColor: isUser ? theme.cardBorderColor : theme.primaryColor,
+                borderColor: theme.primaryColor,
                 isUser: isUser,
               ),
               child: Padding(
                 padding: EdgeInsets.only(
-                  left: isUser ? 16.0 : 20.0, // Reduced from 28.0
-                  right: isUser ? 20.0 : 16.0, // Reduced from 28.0
+                  left: isUser ? 16.0 : 20.0,
+                  right: isUser ? 20.0 : 16.0,
                   top: 14.0,
                   bottom: 14.0,
                 ),
