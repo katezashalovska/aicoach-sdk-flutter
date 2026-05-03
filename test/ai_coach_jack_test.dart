@@ -1,12 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-
+import 'package:flutter/material.dart';
 import 'package:ai_coach_jack/ai_coach_jack.dart';
 
 void main() {
-  test('adds one to input values', () {
-    final calculator = Calculator();
-    expect(calculator.addOne(2), 3);
-    expect(calculator.addOne(-7), -6);
-    expect(calculator.addOne(0), 1);
+  test('AiCoachTheme has default colors', () {
+    const theme = AiCoachTheme();
+    expect(theme.primaryColor, const Color(0xFF7B61FF));
+    expect(theme.backgroundColor, const Color(0xFFFAFAFA));
   });
 }
