@@ -4,6 +4,7 @@ import '../../../models/chat_message.dart';
 import '../../../models/chat_item.dart';
 import '../../../repository/ai_coach_repository.dart';
 import '../../shared/ai_coach_app_bar.dart';
+import '../controllers/ai_coach_chat_controller.dart';
 import '../widgets/typing_indicator.dart';
 import '../widgets/chat_greeting.dart';
 import '../widgets/chat_input.dart';
@@ -41,155 +42,125 @@ class AiCoachChat extends StatefulWidget {
 }
 
 class _AiCoachChatState extends State<AiCoachChat> {
+  late final AiCoachChatController _controller;
   final TextEditingController _textController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-  final List<ChatMessage> _messages = [];
-  bool _isLoading = true;
-  bool _isSending = false;
-  ChatItem? _currentSession;
 
   @override
   void initState() {
     super.initState();
-    _currentSession = widget.session;
-    _initializeChat();
+    _controller = AiCoachChatController(
+      repository: widget.repository,
+      coachId: widget.coachId,
+      initialSession: widget.session,
+    );
+    _controller.addListener(_onControllerChanged);
   }
 
   @override
   void dispose() {
+    _controller.removeListener(_onControllerChanged);
+    _controller.dispose();
     _scrollController.dispose();
     _textController.dispose();
     super.dispose();
   }
 
-  Future<void> _initializeChat() async {
-    try {
-      if (_currentSession == null && widget.coachId != null) {
-        final existingSessions = await widget.repository.getChatSessions();
-        final match = existingSessions.firstWhere(
-          (s) => s.coachId == widget.coachId,
-          orElse: () => const ChatItem(id: '', coachId: '', name: '', avatarUrl: ''),
-        );
-
-        if (match.id.isNotEmpty) {
-          _currentSession = match;
-        } else {
-          _currentSession = await widget.repository.createChatSession(widget.coachId!);
-        }
-      }
-
-      if (_currentSession != null) {
-        final history = await widget.repository.getSessionHistory(_currentSession!.id);
-        if (mounted) {
-          setState(() {
-            _messages.addAll(history);
-            _isLoading = false;
-          });
-        }
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
-    }
-  }
-
-  Future<void> _sendMessage() async {
-    if (_textController.text.trim().isEmpty || _isSending || _currentSession == null) return;
-
-    final text = _textController.text;
-    _textController.clear();
-
-    setState(() {
-      _isSending = true;
-      _messages.add(
-        ChatMessage(
-          text: text,
-          isUser: true,
-          timestamp: DateTime.now(),
-        ),
-      );
-    });
-
-    FocusScope.of(context).unfocus();
-
-    try {
-      final response = await widget.repository.sendMessage(_currentSession!.id, text);
-      if (mounted) {
-        setState(() {
-          _messages.add(response);
-          _isSending = false;
-        });
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() {
-          _isSending = false;
-          _messages.add(
-            ChatMessage(
-              text: 'Sorry, I couldn\'t reach the server. Please try again.',
-              isUser: false,
-              timestamp: DateTime.now(),
-            ),
-          );
-        });
-      }
+  void _onControllerChanged() {
+    // Automatically scroll to bottom when new messages arrive or grow
+    if (_scrollController.hasClients) {
+      _scrollController.jumpTo(0.0);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: widget.theme.backgroundColor,
-      appBar: AiCoachAppBar(
-        title: _currentSession?.name ?? 'Chat',
-        theme: widget.theme,
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: _isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : ListView.builder(
-                    controller: _scrollController,
-                    reverse: true,
-                    padding: const EdgeInsets.only(
-                      left: 16.0,
-                      right: 16.0,
-                      top: 0.0,
-                      bottom: 24.0,
-                    ),
-                    itemCount: _messages.length + 1 + (_isSending ? 1 : 0),
-                    itemBuilder: (context, index) {
-                      if (_isSending && index == 0) {
-                        return _buildTypingIndicator();
-                      }
-
-                      final messageIndex = _isSending ? index - 1 : index;
-
-                      if (messageIndex == _messages.length) {
-                        return ChatGreeting(
-                          userName: widget.userName,
-                          session: _currentSession,
-                          theme: widget.theme,
-                        );
-                      }
-
-                      return ChatMessageBubble(
-                        message: _messages[_messages.length - 1 - messageIndex],
-                        theme: widget.theme,
-                      );
-                    },
-                  ),
-          ),
-          ChatInput(
-            controller: _textController,
-            isSending: _isSending,
+    return ListenableBuilder(
+      listenable: _controller,
+      builder: (context, _) {
+        return Scaffold(
+          backgroundColor: widget.theme.backgroundColor,
+          appBar: AiCoachAppBar(
+            title: _controller.currentSession?.name ?? 'Chat',
             theme: widget.theme,
-            onSend: _sendMessage,
           ),
-        ],
-      ),
+          body: Column(
+            children: [
+              Expanded(
+                child: _controller.isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : CustomScrollView(
+                        controller: _scrollController,
+                        reverse: true,
+                        slivers: [
+                          SliverPadding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            sliver: SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                                (context, index) {
+                                  final bool showTyping = _controller.isSending &&
+                                      (_controller.messages.isEmpty ||
+                                          _controller.messages.last.isUser);
+                                  if (showTyping && index == 0) {
+                                    return _buildTypingIndicator();
+                                  }
+
+                                  final messageIndex = showTyping ? index - 1 : index;
+                                  if (messageIndex < 0 ||
+                                      messageIndex >= _controller.messages.length) {
+                                    return null;
+                                  }
+
+                                  return ChatMessageBubble(
+                                    message: _controller.messages[
+                                        _controller.messages.length - 1 - messageIndex],
+                                    theme: widget.theme,
+                                  );
+                                },
+                                childCount: _controller.messages.length +
+                                    (_controller.isSending &&
+                                            (_controller.messages.isEmpty ||
+                                                _controller.messages.last.isUser)
+                                        ? 1
+                                        : 0),
+                              ),
+                            ),
+                          ),
+                          SliverFillRemaining(
+                            hasScrollBody: false,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: Column(
+                                children: [
+                                  ChatGreeting(
+                                    userName: widget.userName,
+                                    session: _controller.currentSession,
+                                    theme: widget.theme,
+                                  ),
+                                  const Spacer(),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+              ),
+              ChatInput(
+                controller: _textController,
+                isSending: _controller.isSending,
+                theme: widget.theme,
+                onSend: () {
+                  final text = _textController.text;
+                  if (text.trim().isNotEmpty) {
+                    _textController.clear();
+                    _controller.sendMessage(text);
+                  }
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:convert';
 import 'package:dio/dio.dart';
 import '../models/coach.dart';
 import '../models/chat_item.dart';
@@ -117,8 +119,89 @@ class RemoteAiCoachRepository implements AiCoachRepository {
   @override
   Stream<String> streamMessage(String sessionId, String content,
       {String? photoUrl}) async* {
-    // SSE Streaming implementation for real-time responses
-    // Note: For production, a specialized SSE parser like 'fetch_client' or custom stream parser is needed
-    yield "SSE Streaming requested for: $content";
+    try {
+      final response = await _dio.post(
+        '/v1/chat/sessions/$sessionId/stream',
+        data: {
+          'content': content,
+          'photoUrl': photoUrl,
+        },
+        options: Options(responseType: ResponseType.stream),
+      );
+
+      final responseStream = response.data.stream as Stream;
+      String buffer = '';
+
+      // Use a timeout to close the stream if the server hangs after sending the response
+      final timedStream = responseStream
+          .cast<List<int>>()
+          .transform(utf8.decoder)
+          .timeout(const Duration(seconds: 2), onTimeout: (sink) {
+        sink.close();
+      });
+
+      await for (final chunk in timedStream) {
+        buffer += chunk;
+
+        // SSE events are separated by double newlines
+        while (buffer.contains('\n\n')) {
+          final index = buffer.indexOf('\n\n');
+          final event = buffer.substring(0, index);
+          buffer = buffer.substring(index + 2);
+
+          yield* _parseSseEvent(event);
+        }
+      }
+
+      // Handle any remaining data in the buffer after the stream closes
+      if (buffer.isNotEmpty) {
+        yield* _parseSseEvent(buffer);
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Stream<String> _parseSseEvent(String event) async* {
+    final lines = event.split('\n');
+    List<String> dataParts = [];
+
+    for (var line in lines) {
+      if (line.startsWith('data:')) {
+        // Strip 'data:' prefix
+        String content = line.substring(5);
+        // Strip leading space if present
+        if (content.startsWith(' ')) {
+          content = content.substring(1);
+        }
+        dataParts.add(content);
+      } else if (line.isNotEmpty && !line.startsWith(':')) {
+        dataParts.add(line);
+      }
+    }
+
+    if (dataParts.isNotEmpty) {
+      final dataBuffer = dataParts.join('\n');
+      final trimmedData = dataBuffer.trim();
+
+      if (trimmedData == '[DONE]') {
+        return;
+      }
+
+      try {
+        final decoded = jsonDecode(dataBuffer);
+        final String text = decoded['text'] ??
+            decoded['content'] ??
+            decoded['delta']?['content'] ??
+            '';
+        if (text.isNotEmpty) {
+          yield text;
+        } else if (decoded is String) {
+          yield decoded;
+        }
+      } catch (e) {
+        yield dataBuffer;
+      }
+    }
   }
 }

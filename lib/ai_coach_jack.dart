@@ -13,4 +13,5 @@ export 'src/ui/chats_list/screens/ai_coach_chats_view.dart';
 export 'src/ui/coach_list/screens/ai_coach_list_view.dart';
 export 'src/ui/coach_details/screens/ai_coach_details_view.dart';
 export 'src/ui/chat/screens/ai_coach_chat.dart';
-export 'src/ai_coach_sdk.dart';
+export 'src/core/ai_coach.dart';
+
