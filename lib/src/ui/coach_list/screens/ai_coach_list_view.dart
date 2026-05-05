@@ -13,12 +13,12 @@ class AiCoachListView extends StatelessWidget {
   final void Function(Coach coach)? onCoachDetails;
 
   const AiCoachListView({
-    Key? key,
+    super.key,
     this.theme = const AiCoachTheme(),
     required this.repository,
     required this.onCoachChosen,
     this.onCoachDetails,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

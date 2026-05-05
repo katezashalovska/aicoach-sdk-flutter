@@ -100,10 +100,10 @@ class ChatMessageBubble extends StatelessWidget {
   final AiCoachTheme theme;
 
   const ChatMessageBubble({
-    Key? key,
+    super.key,
     required this.message,
     required this.theme,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

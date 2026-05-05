@@ -80,8 +80,6 @@ class _AiCoachDetailsViewState extends State<AiCoachDetailsView> {
       spacing: 4,
       runSpacing: 4,
       children: [
-        CoachTag(theme: widget.theme, iconPath: 'assets/icons/ic_like.svg', label: widget.coach.rating.toString(), isGlass: false),
-        CoachTag(theme: widget.theme, iconPath: 'assets/icons/ic_profile.svg', label: widget.coach.userCount, isGlass: false),
         ...widget.coach.tags.map((tag) => CoachTag(theme: widget.theme, label: tag, isGlass: false)),
       ],
     );

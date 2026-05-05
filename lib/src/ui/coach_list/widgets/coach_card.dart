@@ -10,12 +10,12 @@ class CoachCard extends StatelessWidget {
   final VoidCallback onChoosePressed;
 
   const CoachCard({
-    Key? key,
+    super.key,
     required this.coach,
     required this.theme,
     required this.onDetailsPressed,
     required this.onChoosePressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -65,18 +65,6 @@ class CoachCard extends StatelessWidget {
                   spacing: 4,
                   runSpacing: 4,
                   children: [
-                    CoachTag(
-                      theme: theme,
-                      iconPath: 'assets/icons/ic_like.svg',
-                      label: coach.rating.toString(),
-                      isGlass: true,
-                    ),
-                    CoachTag(
-                      theme: theme,
-                      iconPath: 'assets/icons/ic_profile.svg',
-                      label: coach.userCount,
-                      isGlass: true,
-                    ),
                     ...coach.tags.map((tag) => CoachTag(
                           theme: theme,
                           label: tag,

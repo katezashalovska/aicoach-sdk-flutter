@@ -14,11 +14,11 @@ class AiCoachAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onBackPress;
 
   const AiCoachAppBar({
-    Key? key,
+    super.key,
     required this.title,
     required this.theme,
     this.onBackPress,
-  }) : super(key: key);
+  });
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight + 16.0);

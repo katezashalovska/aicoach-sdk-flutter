@@ -10,12 +10,12 @@ class CoachTag extends StatelessWidget {
   final bool isGlass;
 
   const CoachTag({
-    Key? key,
+    super.key,
     required this.theme,
     this.iconPath,
     required this.label,
     this.isGlass = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

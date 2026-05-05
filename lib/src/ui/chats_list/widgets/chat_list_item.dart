@@ -9,11 +9,11 @@ class ChatListItem extends StatelessWidget {
   final VoidCallback onTap;
 
   const ChatListItem({
-    Key? key,
+    super.key,
     required this.chat,
     required this.theme,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

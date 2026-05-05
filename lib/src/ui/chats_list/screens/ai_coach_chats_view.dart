@@ -14,11 +14,11 @@ class AiCoachChatsView extends StatelessWidget {
   final void Function(ChatItem coach) onChatTapped;
 
   const AiCoachChatsView({
-    Key? key,
+    super.key,
     this.theme = const AiCoachTheme(),
     required this.repository,
     required this.onChatTapped,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
