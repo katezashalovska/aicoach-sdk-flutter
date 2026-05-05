@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # aicoach_sdk_flutter
 
 A Flutter SDK for integrating an AI-powered coaching experience into your mobile application. The package ships a complete, ready-to-use UI layer covering coach discovery, session management, and real-time streamed chat — all fully themeable to match your brand.
@@ -144,4 +144,3 @@ AiCoach.updateUserId('new_user_id');
 For feature requests, integration questions, or API documentation, please contact the SDK maintainers through your licensed distribution channel.
 =======
 # aicoach-sdk-flutter
->>>>>>> 94392e02a4e69f9980e2c37a854349ff9ed3ab24
