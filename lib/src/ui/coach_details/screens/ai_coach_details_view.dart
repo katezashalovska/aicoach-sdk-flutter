@@ -153,7 +153,7 @@ class _AchievementItem extends StatelessWidget {
               width: 20,
               height: 20,
               colorFilter: ColorFilter.mode(theme.primaryColor, BlendMode.srcIn),
-              package: 'ai_coach_jack',
+              package: 'aicoach_sdk_flutter',
             ),
           ),
           const SizedBox(width: 12),

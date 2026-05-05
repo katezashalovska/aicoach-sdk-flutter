@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ai_coach_jack/ai_coach_jack.dart';
+import 'package:aicoach_sdk_flutter/aicoach_sdk_flutter.dart';
 
 void main() {
   // Initialize AI Coach SDK

@@ -58,7 +58,7 @@ class CoachTag extends StatelessWidget {
                 isGlass ? theme.onAccentColor : theme.primaryColor,
                 BlendMode.srcIn,
               ),
-              package: 'ai_coach_jack',
+              package: 'aicoach_sdk_flutter',
             ),
             const SizedBox(width: 6),
           ],

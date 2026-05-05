@@ -48,7 +48,7 @@ class AiCoachAppBar extends StatelessWidget implements PreferredSizeWidget {
                   theme.titleStyle.color!,
                   BlendMode.srcIn,
                 ),
-                package: 'ai_coach_jack',
+                package: 'aicoach_sdk_flutter',
               ),
               onPressed: onBackPress ??
                   () {

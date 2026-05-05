@@ -31,7 +31,7 @@ class CoachReviewItem extends StatelessWidget {
                   theme.primaryColor,
                   BlendMode.srcIn,
                 ),
-                package: 'ai_coach_jack',
+                package: 'aicoach_sdk_flutter',
               ),
               const SizedBox(width: 8),
               Text(

@@ -85,7 +85,7 @@ class ChatInput extends StatelessWidget {
                     padding: EdgeInsets.zero,
                     icon: SvgPicture.asset(
                       'assets/icons/ic_send.svg',
-                      package: 'ai_coach_jack',
+                      package: 'aicoach_sdk_flutter',
                       colorFilter: ColorFilter.mode(
                         theme.primaryColor,
                         BlendMode.srcIn,
