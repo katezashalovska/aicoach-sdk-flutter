@@ -1,6 +1,6 @@
 name: aicoach_sdk_flutter
 description: "A Flutter SDK for integrating an AI-powered coaching experience."
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/katezashalovska/aicoach-sdk-flutter
 repository: https://github.com/katezashalovska/aicoach-sdk-flutter
 

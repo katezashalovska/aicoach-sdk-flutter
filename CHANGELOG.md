@@ -1,3 +1,7 @@
+## 1.0.1
+
+* Updated documentation and fixed formatting in README.md.
+
 ## 1.0.0
 
 * Initial release of the AI Coach SDK.
