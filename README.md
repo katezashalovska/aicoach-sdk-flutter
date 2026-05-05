@@ -1,4 +1,4 @@
-# ai_coach_jack
+# aicoach_sdk_flutter
 
 A Flutter SDK for integrating an AI-powered coaching experience into your mobile application. The package ships a complete, ready-to-use UI layer covering coach discovery, session management, and real-time streamed chat — all fully themeable to match your brand.
 
@@ -16,7 +16,7 @@ Add the package to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  ai_coach_jack: ^1.0.0
+  aicoach_sdk_flutter: ^1.0.0
 ```
 
 Then run:
@@ -33,7 +33,7 @@ Call `AiCoach.init` once before the widget tree is built, typically in `main()` 
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:ai_coach_jack/ai_coach_jack.dart';
+import 'package:aicoach_sdk_flutter/aicoach_sdk_flutter.dart';
 
 void main() {
   AiCoach.init(

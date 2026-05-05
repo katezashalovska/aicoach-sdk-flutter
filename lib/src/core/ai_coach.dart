@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:ai_coach_jack/src/models/ai_coach_config.dart';
-import 'package:ai_coach_jack/src/repository/ai_coach_repository.dart';
-import 'package:ai_coach_jack/src/repository/remote_ai_coach_repository.dart';
-import 'package:ai_coach_jack/src/theme/ai_coach_theme.dart';
-import 'package:ai_coach_jack/src/ui/home/screens/ai_coach_home_view.dart';
-import 'package:ai_coach_jack/src/ui/coach_list/screens/ai_coach_list_view.dart';
-import 'package:ai_coach_jack/src/ui/chats_list/screens/ai_coach_chats_view.dart';
-import 'package:ai_coach_jack/src/models/coach.dart';
-import 'package:ai_coach_jack/src/ui/coach_details/screens/ai_coach_details_view.dart';
-import 'package:ai_coach_jack/src/ui/chat/screens/ai_coach_chat.dart';
+import '../models/ai_coach_config.dart';
+import '../repository/ai_coach_repository.dart';
+import '../repository/remote_ai_coach_repository.dart';
+import '../theme/ai_coach_theme.dart';
+import '../ui/home/screens/ai_coach_home_view.dart';
+import '../ui/coach_list/screens/ai_coach_list_view.dart';
+import '../ui/chats_list/screens/ai_coach_chats_view.dart';
+import '../models/coach.dart';
+import '../ui/coach_details/screens/ai_coach_details_view.dart';
+import '../ui/chat/screens/ai_coach_chat.dart';
 
 /// The entry point for the AI Coach SDK.
 ///
