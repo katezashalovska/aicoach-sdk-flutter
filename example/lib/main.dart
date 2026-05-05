@@ -4,9 +4,9 @@ import 'package:aicoach_sdk_flutter/aicoach_sdk_flutter.dart';
 void main() {
   // Initialize AI Coach SDK
   AiCoach.init(
-    apiKey: 'sk_30fd8920273a43a88e454841db817f1d_337a933ef75e43dc',
-    userId: 'user_123_dan',
-    userName: 'Jonatan',
+    apiKey: 'YOUR_API_KEY',
+    userId: 'unique_user_id',
+    userName: 'Jane',
     theme: AiCoachTheme(
       primaryColor: const Color(0xFF7B61FF),
       onAccentColor: Colors.white,
@@ -55,7 +55,7 @@ class HostAppHomeScreen extends StatelessWidget {
                   size: 64, color: Color(0xFF7B61FF)),
               const SizedBox(height: 24),
               Text(
-                'Welcome back, Jonatan!',
+                'Welcome back, Jane!',
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
